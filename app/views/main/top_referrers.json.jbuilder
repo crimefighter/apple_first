@@ -2,7 +2,7 @@
   json.set! date do
     json.array! pages do |page|
       json.url page[:url]
-      json.visits page[:visits]
+      json.visits page[:count]
       json.referrers do
         json.array! page[:referrers] do |referrer|
           json.url referrer[:referrer]

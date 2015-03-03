@@ -31,7 +31,7 @@ class PageView < Sequel::Model
         .map do |url, referrers|
           {
             url: url,
-            visits: top10_pages.detect {|page| page[:url] == url}[:count],
+            count: top10_pages.detect {|page| page[:url] == url}[:count],
             referrers: referrers.take(5)
           }
         end

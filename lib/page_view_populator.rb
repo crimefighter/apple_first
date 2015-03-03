@@ -1,8 +1,8 @@
 require 'faker'
 
 class PageViewPopulator
-  NUMBER_OF_ENTRIES = 1000000
-  NUMBER_OF_DAYS = 10
+  NUMBER_OF_ENTRIES = Rails.env.test? ? 1000 : 1000000
+  NUMBER_OF_DAYS = Rails.env.test? ? 2 : 10
   BATCH_SIZE = 1000
   NUMBER_OF_FAKE_URLS = 100
   MANDATORY = {
@@ -26,7 +26,7 @@ class PageViewPopulator
     number_of_batches = NUMBER_OF_ENTRIES/BATCH_SIZE
     number_of_batches.times do |batch_number|
       populate_batch!(batch_number)
-      puts "Populated batch #{batch_number} of #{number_of_batches}"
+      puts "Populated batch #{batch_number+1} of #{number_of_batches}"
     end
   end
 

@@ -5,12 +5,12 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: mysql2
   pool: 5
   timeout: 5000
 
 development:
   <<: *default
+  adapter: mysql2
   host: localhost
   database: apple_first
   username: badger
@@ -21,6 +21,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
+  adapter: sqlite3
   database: db/test.sqlite3
 
 production:
