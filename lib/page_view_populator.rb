@@ -4,6 +4,7 @@ class PageViewPopulator
   NUMBER_OF_ENTRIES = 1000000
   NUMBER_OF_DAYS = 10
   BATCH_SIZE = 1000
+  NUMBER_OF_FAKE_URLS = 100
   MANDATORY = {
     urls: %w(
       http://apple.com
@@ -35,12 +36,10 @@ private
     rows = BATCH_SIZE.times.map do |row_number|
       row = {
         id: base_row_id + row_number,
-        url: MANDATORY[:urls].sample,
-        created_at: rand(NUMBER_OF_DAYS+1).days.ago.midnight + rand(1440).minutes
+        url: generate_url(batch_number),
+        created_at: generate_created_at
       }
-      row[:referrer] = MANDATORY[:referrers].reject do |referrer|
-        referrer == row[:url]
-      end.sample
+      row[:referrer] = generate_referrer(batch_number, row[:url])
       row[:creation_date] = row[:created_at].to_date
       row[:hash] = PageView.generate_hash(row)
       row
@@ -48,5 +47,39 @@ private
     PageView.db.transaction do
       PageView.dataset.multi_insert rows
     end
+  end
+
+  # Generate url for PageView
+  # Shuffles mandatory urls for first batch, then adds faker
+  def self.generate_url batch_number
+    if batch_number.zero?
+      MANDATORY[:urls]
+    else
+      fake_urls
+    end.sample
+  end
+
+  # Generate referrer for PageView
+  # Shuffles mandatory referrers for first batch, then adds faker
+  # Makes sure referrer is not the same as url
+  def self.generate_referrer(batch_number, url)
+    if batch_number.zero?
+      MANDATORY[:referrers].reject do |referrer|
+        referrer == url
+      end.sample
+    else
+      fake_referrer = fake_urls.sample
+      # if fake referrer happens to be the same as url, use null instead
+      fake_referrer == url ? nil : fake_referrer
+    end
+  end
+
+  def self.generate_created_at
+    rand(NUMBER_OF_DAYS+1).days.ago.midnight + rand(1440).minutes
+  end
+
+  def self.fake_urls
+    @@fake_urls ||= NUMBER_OF_FAKE_URLS.times.map { Faker::Internet.url } +
+      MANDATORY.values.flatten.compact.uniq
   end
 end

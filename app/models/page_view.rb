@@ -32,7 +32,7 @@ class PageView < Sequel::Model
           {
             url: url,
             visits: top10_pages.detect {|page| page[:url] == url}[:count],
-            referrers: referrers
+            referrers: referrers.take(5)
           }
         end
       [date, referrers]

@@ -1,0 +1,37 @@
+<div ng-hide="loaded" class="text-center">
+  <h1>Loading...</h1>
+</div>
+<h1 ng-show="loaded" class="text-center">
+  Top Pages for last 5 days
+</h1>
+<table class="table" ng-repeat="(date, pages) in data">
+  <caption>
+    <h2 class="text-center">{{::date}}</h2>
+  </caption>
+  <thead>
+    <tr>
+      <th>
+        #
+      </th>
+      <th>
+        Page URL
+      </th>
+      <th class="text-right">
+        Visits
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="page in pages | orderBy:'visits':true">
+      <td>
+        {{::$index+1}}
+      </td>
+      <td>
+        {{::page.url}}
+      </td>
+      <td class="text-right">
+        {{::page.visits}}
+      </td>
+    </tr>
+  </tbody>
+</table>

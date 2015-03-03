@@ -1,0 +1,72 @@
+<h1 ng-hide="loaded" class="text-center">
+  Loading...
+</h1>
+<h1 ng-show="loaded" class="text-center">
+  Top Referrers for last 5 days
+</h1>
+<table class="table" ng-repeat="(date, pages) in data">
+  <caption>
+    <h2 class="text-center">{{::date}}</h2>
+  </caption>
+  <thead>
+    <tr>
+      <th colspan="3">
+        <table class="table table-borderless table-condensed">
+          <tr>
+            <td>
+              #
+            </td>
+            <td>
+              Page URL
+            </td>
+            <td class="text-right">
+              Visits
+            </td>
+          </tr>
+        </table>
+      </th>
+      <th>
+        <table class="table table-borderless table-condensed">
+            <tr>
+              <td colspan="2" class="text-center">
+                Top 5 Referrers
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Referrer URL
+              </td>
+              <td class="text-right">
+                Visits
+              </td>
+            </tr>
+        </table>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="page in pages | orderBy:'visits':true">
+      <td>
+        {{::$index+1}}
+      </td>
+      <td>
+        {{::page.url}}
+      </td>
+      <td class="text-right">
+        {{::page.visits}}
+      </td>
+      <td>
+        <table class="table table-borderless table-condensed">
+          <tr ng-repeat="referrer in page.referrers | orderBy:'visits':true">
+            <td>
+              {{::referrer.url}}
+            </td>
+            <td class="text-right">
+              {{::referrer.visits}}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>

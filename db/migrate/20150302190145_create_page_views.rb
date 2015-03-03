@@ -9,8 +9,7 @@ Sequel.migration do
       DateTime :created_at, null: false
       Date :creation_date, null: false
 
-      index [:url, :creation_date]
-      index [:url, :referrer]
+      index [:creation_date, :url, :referrer]
     end
 
   end

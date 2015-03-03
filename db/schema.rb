@@ -8,8 +8,7 @@ Sequel.migration do
       column :created_at, "datetime", :null=>false
       column :creation_date, "date", :null=>false
       
-      index [:url, :creation_date]
-      index [:url, :referrer]
+      index [:creation_date, :url, :referrer]
     end
     
     create_table(:schema_migrations) do
