@@ -1,4 +1,4 @@
-# Apple Ruby Challenge #1
+# Apple Ruby on Rails Challenge #1
 
 ## Usage
 
