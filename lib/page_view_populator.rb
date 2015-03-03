@@ -69,13 +69,13 @@ private
       end.sample
     else
       fake_referrer = fake_urls.sample
-      # if fake referrer happens to be the same as url, use null instead
+      # if fake referrer happens to be the same as url, return null instead
       fake_referrer == url ? nil : fake_referrer
     end
   end
 
   def self.generate_created_at
-    rand(NUMBER_OF_DAYS+1).days.ago.midnight + rand(1440).minutes
+    rand(NUMBER_OF_DAYS).days.ago.midnight + rand(1440).minutes
   end
 
   def self.fake_urls

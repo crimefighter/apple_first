@@ -30,7 +30,7 @@ RSpec.describe PageView, type: :model do
 
   shared_examples "pages report" do
     it "returns data grouped by date" do
-      desired_dates = [0, 1, 2].map do |n|
+      desired_dates = [0, 1].map do |n|
         n.days.ago.to_date
       end
       expect(data.keys).to eq desired_dates

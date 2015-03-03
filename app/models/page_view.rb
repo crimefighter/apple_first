@@ -4,8 +4,8 @@ class PageView < Sequel::Model
   def self.generate_hash(attributes = {})
     normalized_hash = attributes
       .symbolize_keys
-      .slice(*HASHABLE_ATTRIBUTES)  # remove unwanted keys and ensure correct order
-      .delete_if {|key,value| value.nil?}     # remove nil attributes
+      .slice(*HASHABLE_ATTRIBUTES)              # remove unwanted keys and ensure correct order
+      .delete_if {|key,value| value.nil?}       # remove nil attributes
     Digest::MD5.hexdigest(normalized_hash.to_s)
   end
 
@@ -28,7 +28,7 @@ class PageView < Sequel::Model
         .order(Sequel.desc(:count))
         .to_a
         .group_by {|row| row[:url]}
-        .map do |url, referrers|
+        .map do |url, referrers| # inject page views count and take top 5 referrers
           {
             url: url,
             count: top10_pages.detect {|page| page[:url] == url}[:count],
