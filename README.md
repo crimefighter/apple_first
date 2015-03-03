@@ -13,4 +13,4 @@
 ## Requirements
 
 * Ruby 1.9+ or 2.x
-* MySQL database
+* MySQL 5.x database
